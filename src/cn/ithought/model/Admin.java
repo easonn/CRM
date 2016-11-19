@@ -1,6 +1,6 @@
 package cn.ithought.model;
 
-import java.security.NoSuchAlgorithmException;
+import cn.ithought.tool.StringTool;
 
 import com.jfinal.plugin.activerecord.Model;
 
@@ -11,28 +11,34 @@ import com.jfinal.plugin.activerecord.Model;
  */
 public class Admin extends Model<Admin> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public static final Admin DAO = new Admin();
+	public static final Admin DAO = new Admin();
 
-    private static final String TABLE = "t_admin";
+	// modify for CRM
+	// 11.19.2016
+	public Admin login() {
+		return this.findFirst("xxxxlogin sql", getStr("userName"),
+				StringTool.getMD5(getStr("password").getBytes()));
+	}
 
-    public boolean login(String name, String pass) {
-        return DAO.findFirst("select * from " + TABLE
-                + " where name=? and pass=?", name, getMD5(pass.getBytes())) != null;
-    }
+	// add for CRM
+	// 11.19.2016
+	public boolean register() {
+		return null != this.findFirst("xxxxxregister sql", getStr("userName"),
+				StringTool.getMD5(getStr("password").getBytes()));
+	}
 
-    public static String getMD5(byte[] src) {
-        StringBuffer sb = new StringBuffer();
-        try {
-            java.security.MessageDigest md = java.security.MessageDigest
-                    .getInstance("MD5");
-            md.update(src);
-            for (byte b : md.digest())
-                sb.append(Integer.toString(b >>> 4 & 0xF, 16)).append(
-                        Integer.toString(b & 0xF, 16));
-        } catch (NoSuchAlgorithmException e) {
-        }
-        return sb.toString();
-    }
+	// add for CRM
+	// 11.19.2016
+	public boolean checkAccount() {
+		return null != findFirst("xxxcheck user duplicate", getStr("userName"));
+	}
+
+	// add for CRM
+	// 11.19.2016
+	public Admin loadByEmail() {
+		return this.findFirst("xxxx select admin by email", getStr("email"));
+	}
+
 }

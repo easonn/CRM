@@ -52,16 +52,4 @@ public class EssayController extends Controller {
         renderJsp("/admin/blogManager/blogList.jsp");
     }
 
-    public void allPV() {
-        String pageView = PageView.DAO.allMonthPV();
-        setAttr("monthPageView", pageView);
-        renderJsp("/admin/pvManager/showMonthPV.jsp");
-    }
-
-    public void essayPercent() {
-        String essayPercent = PageView.DAO.essayPercent();
-        setAttr("essayPercent", essayPercent);
-        renderJsp("/admin/pvManager/showPercent.jsp");
-    }
-
 }
