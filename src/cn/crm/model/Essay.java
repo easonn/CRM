@@ -1,3 +1,4 @@
+package cn.crm.model;
 //package cn.ithought.model;
 //
 //import java.sql.SQLException;

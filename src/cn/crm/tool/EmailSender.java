@@ -1,4 +1,4 @@
-package cn.ithought.tool;
+package cn.crm.tool;
 
 import java.util.Properties;//类似于hashmap，提供键值对的集合
 

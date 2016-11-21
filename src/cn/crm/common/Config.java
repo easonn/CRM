@@ -1,4 +1,4 @@
-package cn.ithought.common;
+package cn.crm.common;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -14,8 +14,8 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 
-import cn.ithought.controller.admin.AdminController;
-import cn.ithought.model.Admin;
+import cn.crm.controller.admin.AdminController;
+import cn.crm.model.Admin;
 
 public class Config extends JFinalConfig {
 

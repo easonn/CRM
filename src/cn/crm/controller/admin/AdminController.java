@@ -1,13 +1,14 @@
-package cn.ithought.controller.admin;
+package cn.crm.controller.admin;
 
 import java.util.UUID;
-import cn.ithought.interceptor.AdminInterceptor;
-import cn.ithought.model.Admin;
-import cn.ithought.tool.StringTool;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.ext.render.CaptchaRender;
+
+import cn.crm.interceptor.AdminInterceptor;
+import cn.crm.model.Admin;
+import cn.crm.tool.StringTool;
 
 /**
  * @author yin.sheng
@@ -82,7 +83,7 @@ public class AdminController extends Controller {
 		if (check) {
 			String passwd = StringTool.getRandomString(8);
 			try {
-				new cn.ithought.tool.EmailSender().sendMail(admin.getStr("teacherEmail"), passwd);
+				new cn.crm.tool.EmailSender().sendMail(admin.getStr("teacherEmail"), passwd);
 				boolean resetPassState = admin.set("teacherPaassword", StringTool.getMD5(passwd.getBytes())).update();
 				msg = resetPassState ? "密码重置邮件已发送,请注意查收,如没收到请检查您邮件的垃圾箱,请勿重复操作" : "exception";
 			} catch (Exception ex) {

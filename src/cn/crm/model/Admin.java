@@ -1,9 +1,9 @@
-package cn.ithought.model;
-
-import cn.ithought.tool.StringTool;
+package cn.crm.model;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+
+import cn.crm.tool.StringTool;
 
 /**
  * @author yin.sheng

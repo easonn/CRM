@@ -1,4 +1,4 @@
-package cn.ithought.interceptor;
+package cn.crm.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;

@@ -1,4 +1,4 @@
-package cn.ithought.common;
+package cn.crm.common;
 
 public class Const {
     // pageConst

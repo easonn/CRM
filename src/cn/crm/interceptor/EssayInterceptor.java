@@ -1,3 +1,4 @@
+package cn.crm.interceptor;
 //package cn.ithought.interceptor;
 //
 //import javax.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package cn.ithought.tool;
+package cn.crm.tool;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;

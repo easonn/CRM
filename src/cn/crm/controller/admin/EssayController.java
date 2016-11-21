@@ -1,3 +1,4 @@
+package cn.crm.controller.admin;
 //package cn.ithought.controller.admin;
 //
 //import cn.ithought.common.Const;

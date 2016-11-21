@@ -1,4 +1,4 @@
-package cn.ithought.model;
+package cn.crm.model;
 
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;

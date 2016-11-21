@@ -1,4 +1,4 @@
-package cn.ithought.interceptor;
+package cn.crm.interceptor;
 
 import java.util.regex.Pattern;
 
