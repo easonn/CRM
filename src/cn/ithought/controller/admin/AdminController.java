@@ -24,8 +24,7 @@ public class AdminController extends Controller {
 	public void login() {
 		// [begin][CRM] Verification code check
 		String inputRandomCode = getPara("inputRandomCode");
-		boolean loginSuccess = CaptchaRender.validate(this, inputRandomCode,
-				RANDOM_CODE_KEY);
+		boolean loginSuccess = CaptchaRender.validate(this, inputRandomCode, RANDOM_CODE_KEY);
 		if (!loginSuccess) {
 			String msg = "验证码错误，请注意大小写";
 			setAttr("msg", msg);
@@ -54,18 +53,18 @@ public class AdminController extends Controller {
 	// 11.19.2016
 	public void register() {
 		Admin model = getModel(Admin.class);
-		boolean checkAccount = model.checkAccount();
-		if (checkAccount) {
+		int lastId = model.checkAccountAndGetLastId();
+		if (-1 == lastId) {
 			String msg = "用户名已存在错误";
 			setAttr("msg", msg);
 			renderJsp("../register.jsp");
+			return;
 		}
-		String id = UUID.randomUUID().toString();
-		model.set("adminId", id);
-		boolean check = model.set("password",
-				StringTool.getMD5(model.getStr("password").getBytes())).save();
+		// String id = UUID.randomUUID().toString();
+		model.set("id", lastId).set("PASSWORD", StringTool.getMD5(model.getStr("PASSWORD").getBytes()));
+		boolean check = model.register();
 		if (check) {
-			setSessionAttr("teacherId", model.getStr("teacherId"));
+			// setSessionAttr("teacherId", model.getStr("teacherId"));
 			redirect("/index");
 		} else {
 			String msg = "未知错误";
@@ -83,12 +82,9 @@ public class AdminController extends Controller {
 		if (check) {
 			String passwd = StringTool.getRandomString(8);
 			try {
-				new cn.ithought.tool.EmailSender().sendMail(
-						admin.getStr("teacherEmail"), passwd);
-				boolean resetPassState = admin.set("teacherPaassword",
-						StringTool.getMD5(passwd.getBytes())).update();
-				msg = resetPassState ? "密码重置邮件已发送,请注意查收,如没收到请检查您邮件的垃圾箱,请勿重复操作"
-						: "exception";
+				new cn.ithought.tool.EmailSender().sendMail(admin.getStr("teacherEmail"), passwd);
+				boolean resetPassState = admin.set("teacherPaassword", StringTool.getMD5(passwd.getBytes())).update();
+				msg = resetPassState ? "密码重置邮件已发送,请注意查收,如没收到请检查您邮件的垃圾箱,请勿重复操作" : "exception";
 			} catch (Exception ex) {
 				msg = "邮件服务器异常,请联系管理员(18200390581)";
 				System.out.println(ex.getMessage());

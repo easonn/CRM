@@ -2,6 +2,7 @@ package cn.ithought.model;
 
 import cn.ithought.tool.StringTool;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -13,26 +14,32 @@ public class Admin extends Model<Admin> {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String TABLE_NAME = "ADMIN";
+
 	public static final Admin DAO = new Admin();
+
+	private Number i;
 
 	// modify for CRM
 	// 11.19.2016
 	public Admin login() {
-		return this.findFirst("xxxxlogin sql", getStr("userName"),
-				StringTool.getMD5(getStr("password").getBytes()));
+		return this.findFirst("xxxxlogin sql", getStr("userName"), StringTool.getMD5(getStr("password").getBytes()));
 	}
 
 	// add for CRM
 	// 11.19.2016
 	public boolean register() {
-		return null != this.findFirst("xxxxxregister sql", getStr("userName"),
-				StringTool.getMD5(getStr("password").getBytes()));
+		return 0 != Db.update("insert into ADMIN(PASSWORD, USERNAME, ID) values(?, ?, ?)", getStr("PASSWORD"),
+				getStr("USERNAME"), getNumber("ID"));
 	}
 
 	// add for CRM
 	// 11.19.2016
-	public boolean checkAccount() {
-		return null != findFirst("xxxcheck user duplicate", getStr("userName"));
+	public int checkAccountAndGetLastId() {
+		boolean check = null == findFirst("SELECT USERNAME FROM " + TABLE_NAME + " WHERE USERNAME =?",
+				getStr("username"));
+		i = findFirst("SELECT max(id) as id FROM " + TABLE_NAME).getNumber("ID");
+		return check ? (null != i ? i.intValue() + 1 : 1) : -1;
 	}
 
 	// add for CRM
