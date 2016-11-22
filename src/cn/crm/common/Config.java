@@ -15,7 +15,13 @@ import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.ViewType;
 
 import cn.crm.controller.admin.AdminController;
+import cn.crm.controller.delivery.DeliveryController;
+import cn.crm.controller.product.ProductController;
+import cn.crm.controller.store.StoreController;
 import cn.crm.model.Admin;
+import cn.crm.model.Delivery;
+import cn.crm.model.Product;
+import cn.crm.model.Store;
 
 public class Config extends JFinalConfig {
 
@@ -23,8 +29,8 @@ public class Config extends JFinalConfig {
 	public void configConstant(Constants me) {
 		me.setDevMode(true);
 		me.setViewType(ViewType.JSP);
-		me.setError404View("/error/404.html");
-		me.setError500View("/error/404.html");
+		me.setError404View("404.html");
+		me.setError500View("500.html");
 	}
 
 	@Override
@@ -53,6 +59,10 @@ public class Config extends JFinalConfig {
 		arp.setDialect(new OracleDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory());
 		arp.addMapping(Admin.TABLE_NAME, "id", Admin.class);
+		arp.addMapping(Product.TABLE_NAME, "id", Product.class);
+		arp.addMapping(Store.TABLE_NAME, "id", Store.class);
+		arp.addMapping(Delivery.TABLE_NAME, "id", Delivery.class);
+
 		arp.setShowSql(true);
 		me.add(arp);
 		me.add(new EhCachePlugin());
@@ -60,8 +70,9 @@ public class Config extends JFinalConfig {
 
 	@Override
 	public void configRoute(Routes me) {
-		// me.add("/", BlogController.class);
-		me.add("/admin", AdminController.class);
+		me.add("/", AdminController.class);
+		me.add("/product", ProductController.class);
+		me.add("/store", StoreController.class);
+		me.add("/delivery", DeliveryController.class);
 	}
-
 }

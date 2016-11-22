@@ -23,30 +23,19 @@ public class AdminController extends Controller {
 	// add for CRM
 	// 11.19.2016
 	public void login() {
-		// [begin][CRM] Verification code check
-		String inputRandomCode = getPara("inputRandomCode");
-		boolean loginSuccess = CaptchaRender.validate(this, inputRandomCode, RANDOM_CODE_KEY);
-		if (!loginSuccess) {
-			String msg = "验证码错误，请注意大小写";
-			setAttr("msg", msg);
-			renderJsp("../login.jsp");
+		Admin admin = getModel(Admin.class);
+		if (null == admin.getStr("userName")) {
+			renderJsp("/login.jsp");
+			return;
 		}
-		// [end][CRM] Verification code check
-		else {
-			Admin admin = getModel(Admin.class).login();
-			boolean check = null != admin;
-			if (check) {
-				// Map<String, String> scoreInfo =
-				// Score.DAO.getAvg(teacher.getStr("teacherId"));
-				// setSessionAttr("teacherName", teacher.getStr("teacherName"));
-				// setAttr("teacher", teacher);
-				// [CRM] there need add session
-				redirect("/index");
-			} else {
-				String msg = "账户名密码错误";
-				setAttr("msg", msg);
-				renderJsp("../login.jsp");
-			}
+		boolean check = (null != admin) ? admin.login() == null : false;
+		if (check) {
+			setSessionAttr("userName", admin.getStr("userName"));
+			renderJsp("index.jsp");
+		} else {
+			String msg = "账户名密码错误";
+			setAttr("msg", msg);
+			renderJsp("login.jsp");
 		}
 	}
 
@@ -61,16 +50,14 @@ public class AdminController extends Controller {
 			renderJsp("../register.jsp");
 			return;
 		}
-		// String id = UUID.randomUUID().toString();
 		model.set("id", lastId).set("PASSWORD", StringTool.getMD5(model.getStr("PASSWORD").getBytes()));
 		boolean check = model.register();
 		if (check) {
-			// setSessionAttr("teacherId", model.getStr("teacherId"));
 			redirect("/index");
 		} else {
 			String msg = "未知错误";
 			setAttr("msg", msg);
-			renderJsp("../register.jsp");
+			renderJsp("register.jsp");
 		}
 	}
 

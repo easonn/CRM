@@ -23,7 +23,7 @@ public class Admin extends Model<Admin> {
 	// modify for CRM
 	// 11.19.2016
 	public Admin login() {
-		return this.findFirst("xxxxlogin sql", getStr("userName"), StringTool.getMD5(getStr("password").getBytes()));
+		return this.findFirst("SELECT USERNAME FROM ADMIN WHERE USERNAME = ? AND PASSWORD = ?", getStr("USERNAME"), StringTool.getMD5(getStr("PASSWORD").getBytes()));
 	}
 
 	// add for CRM
